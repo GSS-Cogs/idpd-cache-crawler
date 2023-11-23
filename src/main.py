@@ -1,11 +1,7 @@
 from typing import List
 
-from src.crawlers.models import BaseCrawler
+from src.crawlers.base import BaseCrawler
 from crawlers import DatasetApiCrawler
-
-# TODO - this needs to come from an env var.
-BASE_DOMAIN = "https://staging.idpd.uk"
-
 
 def crawl(crawlers: List[BaseCrawler]):
     """
@@ -45,7 +41,7 @@ if __name__  == "__main__":
     for crawler in [DatasetApiCrawler]: # Add more when we have more, just dataset to begin with
         try:
             instanitated_crawler_list.append(
-                crawler(BASE_DOMAIN)
+                crawler(DOMAIN_ROOT)
             )
         except Exception as err:
            # NOTE - you CAN (and should) raise here, if it
