@@ -20,10 +20,9 @@ def _get_headers():
        # For example the username and password where 
        # the service in question is behing a basic auth wall.
 
-       # TODO - create a headers dicr
+       # TODO - create a headers dict
        # - add cache control no cache
-       # - add headers from a stringified
-       #   json dict provided as a env var.
+       # - add headers as parsed from an env var.
        ...
     
 class BaseCrawler(mata=ABCMeta):
@@ -38,13 +37,12 @@ class BaseCrawler(mata=ABCMeta):
         self.delay = _get_delay_from_env(delay_from_env_var)
         self.request_headers = _get_headers()
 
-
     @abstractmethod
     def crawl(self):
         """
         Crawl the web resources this crawler is desgined to crawl.
         """
-
+        # Implemented in the inheriting class, not here.
         ...
 
     # NOTE - not an abstract, a get (with a no cache header) is

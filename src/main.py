@@ -1,4 +1,5 @@
 from typing import List
+from unittest.mock import Base
 
 from src.crawlers.base import BaseCrawler
 from crawlers import DatasetApiCrawler
@@ -27,7 +28,7 @@ def crawl(crawlers: List[BaseCrawler]):
             ...
             
 
-if __name__  == "__main__":
+def main(crawler_list: List[BaseCrawler]):
 
     # TODO - get the domain from an env var, eg:
     # DOMAIN_ROOT="staging.idpd.uk"
@@ -38,7 +39,7 @@ if __name__  == "__main__":
     # Note: "dataset api" is the real/post-poc name for
     # the api we built.
     instanitated_crawler_list = []
-    for crawler in [DatasetApiCrawler]: # Add more when we have more, just dataset to begin with
+    for crawler in crawler_list:
         try:
             instanitated_crawler_list.append(
                 crawler(DOMAIN_ROOT)
@@ -53,3 +54,8 @@ if __name__  == "__main__":
             ...
 
     crawl(instanitated_crawler_list)
+
+if __name__  == "__main__":
+    # Add more when we have more, just dataset to begin with
+    crawler_list = [DatasetApiCrawler]
+    main(crawler_list)
