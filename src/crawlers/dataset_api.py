@@ -8,8 +8,6 @@ class DatasetApiCrawler(BaseCrawler):
         Crawl the web resources this crawler is desgined to crawl.
         """
 
-        delay: int = self.get_delay_from_env("REQUEST_DELAY_FOR_DATASET_API")
-
         # We want to:
         # - send a get request with a cache-control no cache header (to refresh
         # the cached response seen by the public).

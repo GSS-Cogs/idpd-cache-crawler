@@ -12,6 +12,20 @@ def _get_delay_from_env(env_var_for_crawler: Optional[str]) -> int:
         #   than 120 (this number is in seconds)
         return 30
 
+def _get_headers():
+       # This is where we set the headers for all request for this
+       # crawler. For example cache control no cache.
+       # There will be times where we'll want to specifiy additional
+       # headers to to be included in requests as well.
+       # For example the username and password where 
+       # the service in question is behing a basic auth wall.
+
+       # TODO - create a headers dicr
+       # - add cache control no cache
+       # - add headers from a stringified
+       #   json dict provided as a env var.
+       ...
+    
 class BaseCrawler(mata=ABCMeta):
 
     def __init__(self, domain: str, delay_from_env_var: str = None):
@@ -22,6 +36,8 @@ class BaseCrawler(mata=ABCMeta):
         # it doesnt get deployed in a non functional state.
         self.domain = domain
         self.delay = _get_delay_from_env(delay_from_env_var)
+        self.request_headers = _get_headers()
+
 
     @abstractmethod
     def crawl(self):
