@@ -1,14 +1,27 @@
 from abc import ABCMeta, abstractmethod
+from typing import Optional
+
+def _get_delay_from_env(env_var_for_crawler: Optional[str]) -> int:
+        # TODO - check for the specified env var
+        # if env_var_for_crawler is None return a default
+        # of 30 seconds.
+        # Otherwise, RAISE an error if:
+        # - the env var does not exist
+        # - the env var cannot be cast to an int
+        # - the end var is less than 5 seconds or greater
+        #   than 120 (this number is in seconds)
+        return 30
 
 class BaseCrawler(mata=ABCMeta):
 
-    def __init__(self, domain: str):
+    def __init__(self, domain: str, delay_from_env_var: str = None):
         # TODO: You'll want to make sure this is reachable and
         # error the instantiation if not.
         # This is true for anything you do at this stage, either
         # (a) you've confirmed it works or (b) you've error'd so
         # it doesnt get deployed in a non functional state.
         self.domain = domain
+        self.delay = _get_delay_from_env(delay_from_env_var)
 
     @abstractmethod
     def crawl(self):
@@ -17,28 +30,13 @@ class BaseCrawler(mata=ABCMeta):
         """
 
         ...
-
-    # Note: the "between each request" delay we're using.
-    # This sets the DEFAULT of 10 seconds where no other value
-    # has been specified.
-    # To finesses an individual crawler we just want to pass
-    # in a suitable env var (some apps will require a lighter
-    # touch than others).
-    def get_delay_from_env(env_var_for_crawler: str) -> int:
-        # TODO - see if said env var exists on the system
-        # and is an interger.
-        # If yes and yes, return that number, else use
-        # the default of 10.
-        # If its there but it cannot be case as int() then
-        # log an error before you use the default.
-        return 10
     
     # TODO - not an abstract, implement this here.
     # Note: the "something" below will be some variation of log
     # out a useful message (basic logs to being with, structured
     # logs can follow once the crawlers built).
     # The main this is THE CRAWLER SHOULD NEVER EVER RAISE an 
-    # uncontrolled error, as it needs ti keep going.
+    # uncontrolled error, as it needs to keep going.
     def handle_error(self, url: str, msg: str, error: Exception):
         """
         Do something where a crawl encounters an error.
