@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Optional
+import os
 
 def _get_delay_from_env(env_var_for_crawler: Optional[str]) -> int:
         # TODO - check for the specified env var
@@ -12,18 +13,50 @@ def _get_delay_from_env(env_var_for_crawler: Optional[str]) -> int:
         #   than 120 (this number is in seconds)
         return 30
 
-def _get_headers():
-       # This is where we set the headers for all request for this
-       # crawler. For example cache control no cache.
-       # There will be times where we'll want to specifiy additional
-       # headers to to be included in requests as well.
-       # For example the username and password where 
-       # the service in question is behing a basic auth wall.
+def _get_headers() -> dict:
+        # This is where we set the headers for all request for this
+        # crawler. For example cache control no cache.
+        # There will be times where we'll want to specifiy additional
+        # headers to to be included in requests as well.
+        # For example the username and password where 
+        # the service in question is behing a basic auth wall.
 
-       # TODO - create a headers dict
-       # - add cache control no cache
-       # - add headers as parsed from an env var.
-       ...
+        # TODO - create a headers dict
+        # - add cache control no cache
+        # - add headers as parsed from an env var.
+        ...
+
+        # declaring header with cache control no cache
+        headers = {
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache"
+        }
+
+        # cache_control_no_cache = {
+        # "Cache-Control": "no-cache",
+        # "Pragma": "no-cache"
+        # }
+
+        # for key, value in cache_control_no_cache:
+        #     headers.update({key : value}) 
+
+        ADDITIONAL_HEADERS = os.getenv('ADDITIONAL_HEADERS')
+        if type(ADDITIONAL_HEADERS) != str:
+            raise Exception("ADDITIONAL_HEADERS doesn't conatin str like value")
+        
+        HEADERS = ADDITIONAL_HEADERS.split(",")
+        for values in HEADERS:
+            if "=" not in values:
+                raise Exception("Some HEADERS in ADDITIONAL_HEADERS are not key value pairs")
+        
+        for header in HEADERS:
+            key_and_value = header.split("=")
+            headers.update({key_and_value[0] : key_and_value[1]})
+        
+        return headers
+        
+
+      
     
 class BaseCrawler(mata=ABCMeta):
 
