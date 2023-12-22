@@ -1,7 +1,7 @@
 import pytest 
 import os
 
-from crawlers.base import _get_headers
+from src.crawlers.base import _get_headers
 
 def test_get_headers_returns_valid_dict_without_env_vars():
     """
@@ -12,7 +12,7 @@ def test_get_headers_returns_valid_dict_without_env_vars():
 
     assert type(headers) == dict
 
-    for key, value in headers:
+    for key, value in headers.items():
         assert type(key) == str
         assert type(value) == str
         assert "," not in key
@@ -37,7 +37,7 @@ def test_get_headers_returns_valid_dict_with_env_vars():
 
     assert type(headers) == dict
 
-    for key, value in headers:
+    for key, value in headers.items():
         assert type(key) == str
         assert type(value) == str
         assert "," not in key

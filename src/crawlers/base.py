@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from typing import Optional
 import os
 
@@ -28,27 +28,28 @@ def _get_headers() -> dict:
         }
 
         ADDITIONAL_HEADERS = os.getenv('ADDITIONAL_HEADERS')
-        if type(ADDITIONAL_HEADERS) != str:
-            raise Exception("ADDITIONAL_HEADERS doesn't conatin str like value")
-        
-        # remove white spaces and duplicate white spaces from ADDITIONAL_HEADERS
-        "".join(ADDITIONAL_HEADERS.split())
-        
-        HEADERS = ADDITIONAL_HEADERS.split(",")
-        for values in HEADERS:
-            if "=" not in values:
-                raise Exception("Some HEADERS in ADDITIONAL_HEADERS are not key value pairs")
-        
-        for header in HEADERS:
-            key_and_value = header.split("=")
-            headers.update({key_and_value[0] : key_and_value[1]})
+        if ADDITIONAL_HEADERS:
+            if type(ADDITIONAL_HEADERS) != str:
+                raise Exception("ADDITIONAL_HEADERS doesn't conatin str like value")
+            
+            # remove white spaces and duplicate white spaces from ADDITIONAL_HEADERS
+            "".join(ADDITIONAL_HEADERS.split())
+            
+            HEADERS = ADDITIONAL_HEADERS.split(",")
+            for values in HEADERS:
+                if "=" not in values:
+                    raise Exception("Some HEADERS in ADDITIONAL_HEADERS are not key value pairs")
+            
+            for header in HEADERS:
+                key_and_value = header.split("=")
+                headers.update({key_and_value[0] : key_and_value[1]})
         
         return headers
         
 
       
     
-class BaseCrawler(mata=ABCMeta):
+class BaseCrawler(ABC):
 
     def __init__(self, domain: str, delay_from_env_var: str = None):
         # TODO: You'll want to make sure this is reachable and
