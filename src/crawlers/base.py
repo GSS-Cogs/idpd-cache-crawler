@@ -21,24 +21,11 @@ def _get_headers() -> dict:
         # For example the username and password where 
         # the service in question is behing a basic auth wall.
 
-        # TODO - create a headers dict
-        # - add cache control no cache
-        # - add headers as parsed from an env var.
-        ...
-
         # declaring header with cache control no cache
         headers = {
         "Cache-Control": "no-cache",
         "Pragma": "no-cache"
         }
-
-        # cache_control_no_cache = {
-        # "Cache-Control": "no-cache",
-        # "Pragma": "no-cache"
-        # }
-
-        # for key, value in cache_control_no_cache:
-        #     headers.update({key : value}) 
 
         ADDITIONAL_HEADERS = os.getenv('ADDITIONAL_HEADERS')
         if type(ADDITIONAL_HEADERS) != str:
