@@ -44,6 +44,9 @@ def _get_headers() -> dict:
         if type(ADDITIONAL_HEADERS) != str:
             raise Exception("ADDITIONAL_HEADERS doesn't conatin str like value")
         
+        # remove white spaces and duplicate white spaces from ADDITIONAL_HEADERS
+        "".join(ADDITIONAL_HEADERS.split())
+        
         HEADERS = ADDITIONAL_HEADERS.split(",")
         for values in HEADERS:
             if "=" not in values:
