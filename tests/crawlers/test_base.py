@@ -63,9 +63,9 @@ def test_get_headers_returns_valid_dict_when_env_var_has_white_spaces():
     """
     with pytest.raises(Exception) as excinfo:
         os.environ['ADDITIONAL_HEADERS'] = 'single Word  With No   Key Or Value'
-        headers = _get_headers()
+        _get_headers()
 
-        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo
+        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo.traceback
 
 def test_get_headers_raises_exception_about_additional_headers():
     """
@@ -73,10 +73,10 @@ def test_get_headers_raises_exception_about_additional_headers():
     data types other than a string
     """
     with pytest.raises(Exception) as excinfo:
-        os.environ['ADDITIONAL_HEADERS'] = 1432
-        headers = _get_headers()
+        os.environ['ADDITIONAL_HEADERS'] = int(1432)
+        _get_headers()
 
-        assert "ADDITIONAL_HEADERS doesn't conatin str like value" in excinfo
+        assert "ADDITIONAL_HEADERS doesn't conatin str like value ADDITIONAL_HEADERS: 1234" in excinfo.traceback
 
 
 def test_get_headers_raises_about_headers():
@@ -87,6 +87,17 @@ def test_get_headers_raises_about_headers():
     """
     with pytest.raises(Exception) as excinfo:
         os.environ['ADDITIONAL_HEADERS'] = 'singleWordWithNoKeyOrValue'
-        headers = _get_headers()
+        _get_headers()
 
-        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo
+        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo.traceback
+
+def test_get_headers_raises_about_headers_containing_malformed_entries():
+    """
+    Testing to see if each 'header in HEADERS' don't have 
+    malformed entry, eg: key=value=typo or key==value
+    """
+    with pytest.raises(Exception) as excinfo:
+        os.environ['ADDITIONAL_HEADERS'] = 'single==Word=With==No=Key=Or=Value'
+        _get_headers()
+
+        assert "Malformed entry, eg: key=value=typo or key==value" in excinfo.traceback
