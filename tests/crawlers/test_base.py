@@ -3,6 +3,7 @@ import os
 
 from src.crawlers.base import _get_headers
 
+
 def test_get_headers_returns_valid_dict_without_env_vars():
     """
     testing _get_headers() returns a dict containing 
@@ -54,6 +55,7 @@ def test_get_headers_returns_valid_dict_with_env_vars():
     assert headers.get("password") is not None
     assert headers.get("password") == "1234"
 
+
 def test_get_headers_returns_valid_dict_when_env_var_has_white_spaces():
     """
     testing _get_headers() returns a dict containing 
@@ -66,6 +68,7 @@ def test_get_headers_returns_valid_dict_when_env_var_has_white_spaces():
         _get_headers()
 
         assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo.traceback
+
 
 def test_get_headers_raises_exception_about_additional_headers():
     """
@@ -90,6 +93,7 @@ def test_get_headers_raises_about_headers():
         _get_headers()
 
         assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo.traceback
+
 
 def test_get_headers_raises_about_headers_containing_malformed_entries():
     """
