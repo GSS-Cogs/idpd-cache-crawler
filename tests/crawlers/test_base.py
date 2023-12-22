@@ -3,7 +3,11 @@ import os
 
 from crawlers.base import _get_headers
 
-def test_get_headers_without_env_vars():
+def test_get_headers_returns_valid_dict_without_env_vars():
+    """
+    testing _get_headers() returns a dict containing 
+    cache control no cache
+    """
     headers = _get_headers()
 
     assert type(headers) == dict
@@ -22,7 +26,12 @@ def test_get_headers_without_env_vars():
     assert headers.get("Pragma") == "no-cache"
 
 
-def test_get_headers_with_env_vars():
+def test_get_headers_returns_valid_dict_with_env_vars():
+    """
+    testing _get_headers() returns a dict containing 
+    cache control no cache, as well as the additional headers
+    defined in the env vars
+    """
     os.environ['ADDITIONAL_HEADERS'] = 'user=username,password=1234'
     headers = _get_headers()
 
@@ -45,8 +54,24 @@ def test_get_headers_with_env_vars():
     assert headers.get("password") is not None
     assert headers.get("password") == "1234"
 
+def test_get_headers_returns_valid_dict_when_env_var_has_white_spaces():
+    """
+    testing _get_headers() returns a dict containing 
+    cache control no cache and additional headers, 
+    when the env vars contain white spaces
+    and duplicate white spaces
+    """
+    with pytest.raises(Exception) as excinfo:
+        os.environ['ADDITIONAL_HEADERS'] = 'single Word  With No   Key Or Value'
+        headers = _get_headers()
+
+        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo
 
 def test_get_headers_raises_exception_about_additional_headers():
+    """
+    Testing to see if exception is raised when the env vars conatin 
+    data types other than a string
+    """
     with pytest.raises(Exception) as excinfo:
         os.environ['ADDITIONAL_HEADERS'] = 1432
         headers = _get_headers()
@@ -55,6 +80,11 @@ def test_get_headers_raises_exception_about_additional_headers():
 
 
 def test_get_headers_raises_about_headers():
+    """
+    Testing to see if an exception is raised after ADDITIONAL_HEADERS
+    is split into HEADERS, to see if each header is missing an '=' in them
+    to signify no key and value, where each header should take the form of '{key}={value}'
+    """
     with pytest.raises(Exception) as excinfo:
         os.environ['ADDITIONAL_HEADERS'] = 'singleWordWithNoKeyOrValue'
         headers = _get_headers()
