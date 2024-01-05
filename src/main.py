@@ -1,5 +1,4 @@
 from typing import List
-from unittest.mock import Base
 import os
 
 from src.crawlers.base import BaseCrawler
@@ -15,20 +14,7 @@ def crawl(crawlers: List[BaseCrawler]):
         try:
             crawler.crawl()
         except Exception as err:
-            logger.error(f"Error occured while attempting to call crawler {crawler}")
-            
-            # TODO
-            # Something with this error, the key point
-            # is the crawler cannot fall over.
-            # Make this error LOUD as an exception from
-            # a crawler means ALL links its responisble
-            # for crawling are potentially not updated, but
-            # do not block or knock over the cache crawler
-            # itself (if needs to keep going and try and 
-            # next crawler).
-            # Ideally errors would be caught before this
-            # point but this is our safety.
-            ...
+            logger.exception(err)
             
 
 def main(crawler_list: List[BaseCrawler]):
@@ -49,8 +35,7 @@ def main(crawler_list: List[BaseCrawler]):
             )
         except Exception as err:
             logger.error(f"Error occured while attempting to instantiate and initiate crawler {crawler}")
-            raise
-            ...
+            raise err
 
     crawl(instanitated_crawler_list)
 
