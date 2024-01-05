@@ -1,8 +1,10 @@
 from typing import List
 from unittest.mock import Base
+import os
 
 from src.crawlers.base import BaseCrawler
 from crawlers import DatasetApiCrawler
+from logger import logger
 
 def crawl(crawlers: List[BaseCrawler]):
     """
@@ -13,6 +15,7 @@ def crawl(crawlers: List[BaseCrawler]):
         try:
             crawler.crawl()
         except Exception as err:
+            logger.error(f"Error occured while attempting to call crawler {crawler}")
             
             # TODO
             # Something with this error, the key point
@@ -32,7 +35,9 @@ def main(crawler_list: List[BaseCrawler]):
 
     # TODO - get the domain from an env var, eg:
     # DOMAIN_ROOT="staging.idpd.uk"
-    DOMAIN_ROOT = "" # get it from an env var
+    DOMAIN_ROOT = os.environ.get("DOMAIN_ROOT")
+    if not DOMAIN_ROOT:
+        raise ValueError("DOMAIN_ROOT not found, please ensure environment variable is correct.")
 
     # Initiate the crawlers in a controlled way so
     # we can make sure none of them error during this
@@ -45,6 +50,8 @@ def main(crawler_list: List[BaseCrawler]):
                 crawler(DOMAIN_ROOT)
             )
         except Exception as err:
+            logger.error(f"Error occured while attempting to instantiate and initiate crawler {crawler}")
+            raise
            # NOTE - you CAN (and should) raise here, if it
            # wont start it wont get deployed which is the correct
            # behaviour for failed instantiation.
