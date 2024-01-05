@@ -9,3 +9,7 @@
 # As long as it will accept those signatures that's enough for now, we can nuance
 # the logger later that way without having to change any logging statements you
 # add to the wider app.
+
+import logging
+
+logger = logging.getLogger("logger")
