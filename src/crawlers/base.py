@@ -29,12 +29,12 @@ def _get_headers() -> dict:
 
         ADDITIONAL_HEADERS = os.getenv('ADDITIONAL_HEADERS')
         if ADDITIONAL_HEADERS:
-            if type(ADDITIONAL_HEADERS) != str:
-                raise Exception(f'''
-                    ADDITIONAL_HEADERS doesn't contain str like value
+            # if type(ADDITIONAL_HEADERS) != str:
+            #     raise Exception(f'''
+            #         ADDITIONAL_HEADERS doesn't contain str like value
                                 
-                    ADDITIONAL_HEADERS: {ADDITIONAL_HEADERS}
-                    ''')
+            #         ADDITIONAL_HEADERS: {str(ADDITIONAL_HEADERS)}
+            #         ''')
             
             # remove white spaces and duplicate white spaces from ADDITIONAL_HEADERS
             "".join(ADDITIONAL_HEADERS.split())
@@ -53,11 +53,11 @@ def _get_headers() -> dict:
                 if len(key_and_value)==2:
                     headers.update({key_and_value[0] : key_and_value[1]})
                 else:
-                    raise Exception(f'''
+                    raise Exception(str(f'''
                         Malformed entry, eg: key=value=typo or key==value
                                     
                         HEADER: {key_and_value}
-                        ''')
+                        '''))
         
         return headers
         

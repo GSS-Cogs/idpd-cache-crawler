@@ -21,9 +21,7 @@ def test_get_headers_returns_valid_dict_without_env_vars():
         assert "," not in value
         assert "=" not in value
 
-    assert headers.get("Cache-Control") is not None
     assert headers.get("Cache-Control") == "no-cache"
-    assert headers.get("Pragma") is not None
     assert headers.get("Pragma") == "no-cache"
 
 
@@ -46,13 +44,9 @@ def test_get_headers_returns_valid_dict_with_env_vars():
         assert "," not in value
         assert "=" not in value
     
-    assert headers.get("Cache-Control") is not None
     assert headers.get("Cache-Control") == "no-cache"
-    assert headers.get("Pragma") is not None
     assert headers.get("Pragma") == "no-cache"
-    assert headers.get("user") is not None
     assert headers.get("user") == "username"
-    assert headers.get("password") is not None
     assert headers.get("password") == "1234"
 
 
@@ -67,19 +61,19 @@ def test_get_headers_returns_valid_dict_when_env_var_has_white_spaces():
         os.environ['ADDITIONAL_HEADERS'] = 'single Word  With No   Key Or Value'
         _get_headers()
 
-        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo.traceback
+    assert ("Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in str(excinfo.value))
 
 
-def test_get_headers_raises_exception_about_additional_headers():
-    """
-    Testing to see if exception is raised when the env vars conatin 
-    data types other than a string
-    """
-    with pytest.raises(Exception) as excinfo:
-        os.environ['ADDITIONAL_HEADERS'] = int(1432)
-        _get_headers()
+# def test_get_headers_raises_exception_about_additional_headers():
+#     """
+#     Testing to see if exception is raised when the env vars conatin 
+#     data types other than a string
+#     """
+#     with pytest.raises(Exception) as excinfo:
+#         os.environ['ADDITIONAL_HEADERS'] = int(1432)
+#         _get_headers()
 
-        assert "ADDITIONAL_HEADERS doesn't conatin str like value ADDITIONAL_HEADERS: 1234" in excinfo.traceback
+#     assert ("ADDITIONAL_HEADERS doesn't conatin str like value" in str(excinfo.value))
 
 
 def test_get_headers_raises_about_headers():
@@ -92,7 +86,7 @@ def test_get_headers_raises_about_headers():
         os.environ['ADDITIONAL_HEADERS'] = 'singleWordWithNoKeyOrValue'
         _get_headers()
 
-        assert "Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in excinfo.traceback
+    assert ("Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in str(excinfo.value))
 
 
 def test_get_headers_raises_about_headers_containing_malformed_entries():
@@ -104,4 +98,4 @@ def test_get_headers_raises_about_headers_containing_malformed_entries():
         os.environ['ADDITIONAL_HEADERS'] = 'single==Word=With==No=Key=Or=Value'
         _get_headers()
 
-        assert "Malformed entry, eg: key=value=typo or key==value" in excinfo.traceback
+    assert ("Malformed entry, eg: key=value=typo or key==value" in str(excinfo.value))
