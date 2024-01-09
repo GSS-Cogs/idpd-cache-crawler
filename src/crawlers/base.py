@@ -29,14 +29,7 @@ def _get_headers() -> dict:
 
         ADDITIONAL_HEADERS = os.getenv('ADDITIONAL_HEADERS')
         if ADDITIONAL_HEADERS:
-            # if type(ADDITIONAL_HEADERS) != str:
-            #     raise Exception(f'''
-            #         ADDITIONAL_HEADERS doesn't contain str like value
-                                
-            #         ADDITIONAL_HEADERS: {str(ADDITIONAL_HEADERS)}
-            #         ''')
-            
-            # remove white spaces and duplicate white spaces from ADDITIONAL_HEADERS
+            # remove white spaces and consecutive white spaces from ADDITIONAL_HEADERS
             "".join(ADDITIONAL_HEADERS.split())
             
             HEADERS = ADDITIONAL_HEADERS.split(",")

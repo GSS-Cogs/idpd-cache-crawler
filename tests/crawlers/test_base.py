@@ -64,18 +64,6 @@ def test_get_headers_returns_valid_dict_when_env_var_has_white_spaces():
     assert ("Some HEADERS in ADDITIONAL_HEADERS are not key value pairs" in str(excinfo.value))
 
 
-# def test_get_headers_raises_exception_about_additional_headers():
-#     """
-#     Testing to see if exception is raised when the env vars conatin 
-#     data types other than a string
-#     """
-#     with pytest.raises(Exception) as excinfo:
-#         os.environ['ADDITIONAL_HEADERS'] = int(1432)
-#         _get_headers()
-
-#     assert ("ADDITIONAL_HEADERS doesn't conatin str like value" in str(excinfo.value))
-
-
 def test_get_headers_raises_about_headers():
     """
     Testing to see if an exception is raised after ADDITIONAL_HEADERS
