@@ -1,4 +1,4 @@
-from .models import BaseCrawler
+from src.crawlers.base import BaseCrawler
 
 class DatasetApiCrawler(BaseCrawler):
 
