@@ -11,3 +11,5 @@ The crawler uses the following env vars on deployment.
 | Env Var | Description | Default |
 | ------- | ----------- | ------- |
 | foo     | bar         | baz     |
+
+Copyright 2024 Office for National Statistics, under Crown Copyright
